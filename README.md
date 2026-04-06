@@ -1,0 +1,236 @@
+# OpenEnv Research Agent
+
+*A deterministic, task-aware baseline for document reasoning environments with structured evaluation.*
+
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-Backend-green?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Docker-Ready-blue?style=for-the-badge">
+  <img src="https://img.shields.io/badge/OpenEnv-Compliant-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Baseline-Agent-purple?style=for-the-badge">
+</p>
+
+---
+
+## Live Deployment:
+
+The environment is deployed on Hugging Face Spaces:
+```
+https://anushka583-openenv-research-agent.hf.space
+```
+You can directly interact with the API via:
+
+- `/docs` -> Swagger UI
+- `/tasks` -> Task definitions
+- `/baseline` -> Baseline agent 
+- `/grader` -> Evaluation endpoint
+---
+
+## Overview:
+
+This project implements a **multi-level research agent** built on the OpenEnv framework.
+
+The system is intentionally deterministic to ensure reproducibility and consistent evaluation across runs. Task-aware branching was introduced to align reasoning strategy with problem complexity. It processes documents and generates answers across different reasoning levels, while also providing an automated evaluation pipeline.
+
+---
+
+## Motivation:
+
+Modern AI should not only generate answers but also **reason at different depths** and **evaluate their own outputs**.
+
+This project demontrates a simple but extensible approach to:
+
+- Structured reasoning
+- Controlled task difficulty
+- Automatic grading
+
+---
+
+## Problem Setting:
+
+The agent operates in a **document-based research environment**, where it must:
+
+- Extract information
+- Combine knowledge across sources
+- Synthesize insights with trade-offs
+
+Across **three difficulty levels**:
+
+| Level | Task Type |
+|------|----------|
+| Easy | Extraction factual information |
+| Medium | Compare and summarize across documents |
+| Hard | Synthesize insights with trade-offs |
+---
+
+## Core Idea:
+
+Instead of treating all tasks the same, the agent uses **task-aware strategies**:
+
+- **Easy** → Direct extraction
+- **Medium** → Deduplicated summarization
+- **Hard** → Structured reasoning (pros/cons + trade-off analysis)
+
+This creates a **progressive reasoning pipeline** aligned with task difficulty.
+
+---
+
+## How it works?
+
+### Easy
+
+- Combines document content
+- Returns concise factual output
+
+### Medium
+
+- Splits into sentences
+- Removes duplicates
+- Produces a clean summary
+
+### Hard
+
+- Detects semantic signals (benefits vs limitations)
+- Extracts key insights
+- Produces structured output:
+
+```
+Key advantages include ...
+On the other hand, limitations include ...
+Overall, a balance between benefits and risks is required.
+```
+
+---
+
+## Design Principles:
+
+- **Deterministic** → Same input = same output
+- **Lightweight** → No heavy dependencies
+- **Explainable** → Every step is interpretable
+- **Task-aware** → Different logic for different complexity
+
+---
+
+## Technology Stack:
+
+- **Python 3.11** (Runtime)
+- **FastAPI** (API layer)
+- **Uvicorn** (ASGI server)
+- **Pydantic** (Request validation)
+- **Docker** (Deployment)
+
+---
+
+## Project Structure:
+```
+OpenEnv/
+│── app.py
+│── env/
+│   ├── environment.py
+│   ├── tasks.py
+│   ├── grader.py
+│── agents/
+│   └── baseline.py
+│── requirements.txt
+│── Dockerfile
+│── openenv.yaml
+│── .gitignore
+```
+---
+
+## Setup & Usage:
+
+### Option 1: Run Locally
+```
+pip install -r requirements.txt
+uvicorn app:app --reload
+```
+
+### Option 2: Run with Docker
+```
+docker build -t openenv .
+docker run -p 7860:8000 openenv
+```
+---
+
+## API Endpoints
+
+| Endpoint   | Method | Description                     |
+|------------|--------|---------------------------------|
+| `/`        | GET    | Check if the service is running |
+| `/health`  | GET    | Returns system health status    |
+| `/tasks`   | GET    | Retrieve available tasks        |
+| `/baseline`| GET    | Execute baseline agent          |
+| `/grader`  | POST   | Evaluate answer and return score|
+
+
+Swagger UI:
+```
+http://localhost:7860/docs
+```
+---
+
+## Example Output:
+
+### Baseline Scores
+```
+{
+  "easy": 0.71,
+  "medium": 0.59,
+  "hard": 0.49
+}
+```
+*Baseline scores shown below are representative values under ideal task-aligned inputs; actual scores may vary depending on user input and evaluation conditions.*
+
+---
+
+## Evaluation Note:
+
+The grading system uses a lightweight heuristic scoring mechanism. Scores are not strictly normalized for correctness, as the focus is on demonstrating the evaluation pipeline. The design allows extension to more robust semantic evaluation methods.
+
+---
+
+## Limitations & Future Work:
+
+- Current grading uses a lightweight heuristic approach  
+- Does not perform deep semantic evaluation of responses  
+- Can be extended with embedding-based or LLM-based scoring  
+- Task reasoning is rule-based and can be enhanced with adaptive strategies
+
+---
+
+## Action and Observation Space:
+
+### Observation
+
+- Query string
+- List of documents (Text)
+
+### Action
+
+- Answer (String response generated by agent)
+
+---
+
+## Key Features:
+
+- Multi-level reasoning agent
+- Integrated evaluation pipeline
+- Clean API-based architecture
+- Fully containerized deployment
+
+---
+
+## Summary:
+
+This project demonstrates how to build a complete AI evaluation loop:
+```
+Task -> Agent -> Output -> Evaluation
+```
+It is designed to be simple, extensible, and reproducible.
+
+---
+
+<br>
+<p align="center">
+  <b>Not just a baseline — a structured foundation for intelligent agents.</b>
+</p>
