@@ -123,17 +123,22 @@ Overall, a balance between benefits and risks is required.
 ## Project Structure:
 ```
 OpenEnv/
-│── app.py
-│── env/
-│   ├── environment.py
-│   ├── tasks.py
-│   ├── grader.py
-│── agents/
+├── server/
+│   └── app.py
+├── agents/
 │   └── baseline.py
-│── requirements.txt
-│── Dockerfile
-│── openenv.yaml
-│── .gitignore
+├── env/
+│   ├── environment.py
+│   ├── grader.py
+│   └── tasks.py
+├── app.py
+├── inference.py
+├── openenv.yaml
+├── Dockerfile
+├── requirements.txt
+├── pyproject.toml
+├── .gitignore
+└── README.md
 ```
 ---
 
@@ -161,7 +166,7 @@ docker run -p 7860:8000 openenv
 | `/tasks`   | GET    | Retrieve available tasks        |
 | `/baseline`| GET    | Execute baseline agent          |
 | `/grader`  | POST   | Evaluate answer and return score|
-
+| `/reset`   | POST   | Reset environment               |
 
 Swagger UI:
 ```
