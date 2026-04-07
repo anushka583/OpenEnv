@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from env.environment import OpenEnv
 from agents.baseline import baseline_agent
 from env.tasks import tasks
-from server.app import app
+from server.app import app, main
 
 app = FastAPI(
     docs_url="/docs",
