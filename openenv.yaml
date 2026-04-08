@@ -1,3 +1,3 @@
-name: openenv
+runtime: openenv
 version: 0.1
-entrypoint: server.app:main
+app: inference:app
