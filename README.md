@@ -131,7 +131,7 @@ OpenEnv/
 │   ├── environment.py
 │   ├── grader.py
 │   └── tasks.py
-├── app.py
+├── main.py
 ├── inference.py
 ├── openenv.yaml
 ├── Dockerfile
