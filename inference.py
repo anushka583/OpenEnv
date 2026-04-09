@@ -4,7 +4,7 @@ from openai import OpenAI
 
 API_BASE_URL = os.getenv("API_BASE_URL")
 MODEL_NAME = os.getenv("MODEL_NAME", "test-model")
-HF_TOKEN = os.getenv("HF_TOKEN", "dummy")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 if not API_BASE_URL:
     API_BASE_URL = "https://anushka583-openenv-research-agent.hf.space"
@@ -47,19 +47,16 @@ def run_task(task_id):
 
 
 def main():
-    scores = {}
+    print("[START]")
 
     for task in TASKS:
         try:
             score = run_task(task)
-            scores[task] = score
+            print(f"[STEP] task={task} score={score}")
         except Exception as e:
-            scores[task] = f"error: {str(e)}"
+            print(f"[STEP] task={task} error={str(e)}")
 
-    print("Baseline Scores:")
-    for task, score in scores.items():
-        print(f"{task}: {score}")
-
+    print("[END]")
 
 if __name__ == "__main__":
     main()
