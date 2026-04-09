@@ -10,6 +10,18 @@ def baseline(task_id: str):
 def grader(data: dict):
     return {"score": 1.0}
 
+@app.post("/reset")
+def reset():
+    return {"status": "reset"}
+
+@app.post("/step")
+def step(data: dict):
+    return {"output": "step result"}
+
+@app.get("/state")
+def state():
+    return {"state": "ok"}
+
 
 def main():
     import uvicorn
