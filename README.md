@@ -131,7 +131,6 @@ OpenEnv/
 │   ├── environment.py
 │   ├── grader.py
 │   └── tasks.py
-├── main.py
 ├── inference.py
 ├── openenv.yaml
 ├── Dockerfile
@@ -147,7 +146,7 @@ OpenEnv/
 ### Option 1: Run Locally
 ```
 pip install -r requirements.txt
-uvicorn app:app --reload
+uvicorn server.app:app --reload
 ```
 
 ### Option 2: Run with Docker
@@ -167,7 +166,8 @@ docker run -p 7860:8000 openenv
 | `/baseline`| GET    | Execute baseline agent          |
 | `/grader`  | POST   | Evaluate answer and return score|
 | `/reset`   | POST   | Reset environment               |
-
+| `/step`    | POST   | Execute one step in environment |
+| `/state`   | GET    | Get current environment state   |
 Swagger UI:
 ```
 http://localhost:7860/docs
